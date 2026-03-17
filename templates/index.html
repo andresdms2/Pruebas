@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Generador de QR con tracking</h1>
+      <p>Crea códigos QR privados y revisa clics por hora, IP y origen.</p>
+
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}
+
+      <section class="card">
+        <h2>Nuevo QR</h2>
+        <form method="post" action="{{ url_for('create_link') }}">
+          <label>URL destino</label>
+          <input type="text" name="target_url" placeholder="https://tu-sitio.com" required />
+
+          <label>Nombre (opcional)</label>
+          <input type="text" name="name" placeholder="Campaña marzo" />
+
+          <label>Alias corto (opcional)</label>
+          <input type="text" name="custom_code" placeholder="promo-marzo" />
+
+          <button type="submit">Crear QR</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Tus enlaces</h2>
+        {% if links %}
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Código</th>
+              <th>Clics</th>
+              <th>QR</th>
+              <th>Estadísticas</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for link in links %}
+            <tr>
+              <td>{{ link['name'] or '-' }}</td>
+              <td><code>{{ link['code'] }}</code></td>
+              <td>{{ link['total_clicks'] }}</td>
+              <td><a href="{{ url_for('qr_image', code=link['code']) }}" target="_blank">PNG</a></td>
+              <td><a href="{{ url_for('stats', code=link['code']) }}">Ver</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>No hay enlaces creados aún.</p>
+        {% endif %}
+      </section>
+    </main>
+  </body>
+</html>

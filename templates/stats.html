@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estadísticas - {{ link['code'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <a href="{{ url_for('index') }}">← Volver</a>
+      <h1>Estadísticas de {{ link['name'] or link['code'] }}</h1>
+      <p><strong>URL destino:</strong> {{ link['target_url'] }}</p>
+      <p><strong>Total de clics:</strong> {{ total_clicks }}</p>
+
+      <section class="card">
+        <h2>Clics por hora (UTC, últimas 48 horas con actividad)</h2>
+        {% if by_hour %}
+        <table>
+          <thead>
+            <tr>
+              <th>Hora</th>
+              <th>Clics</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in by_hour %}
+            <tr>
+              <td>{{ row['hour_bucket'] }}</td>
+              <td>{{ row['clicks'] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>Aún no hay clics para mostrar.</p>
+        {% endif %}
+      </section>
+
+      <section class="card">
+        <h2>Últimos clics</h2>
+        {% if recent_clicks %}
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha/hora (UTC)</th>
+              <th>IP</th>
+              <th>Referer</th>
+              <th>User Agent</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for click in recent_clicks %}
+            <tr>
+              <td>{{ click['clicked_at'] }}</td>
+              <td>{{ click['ip_address'] or '-' }}</td>
+              <td>{{ click['referer'] or '-' }}</td>
+              <td>{{ click['user_agent'] or '-' }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>Aún no hay clics registrados.</p>
+        {% endif %}
+      </section>
+    </main>
+  </body>
+</html>

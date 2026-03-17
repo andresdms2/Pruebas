@@ -1,0 +1,63 @@
+:root {
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.container {
+  width: min(1000px, 95%);
+  margin: 2rem auto;
+}
+
+.card {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+
+form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+input {
+  padding: 0.6rem;
+}
+
+button {
+  border: 0;
+  background: #111827;
+  color: #fff;
+  padding: 0.7rem 1rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.messages {
+  list-style: none;
+  padding: 0;
+}
+
+.messages li {
+  padding: 0.5rem;
+  background: #d1fae5;
+  border-radius: 0.4rem;
+  margin: 0.5rem 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.6rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
